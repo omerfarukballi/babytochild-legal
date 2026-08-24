@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LittleSteps - Eliminación de Cuenta</title>
+  <style>
+    :root {
+      --bg: #f7f5f2;
+      --card: #ffffff;
+      --text: #2d2a26;
+      --muted: #6f685f;
+      --border: #dfd9d1;
+      --primary: #7ba872;
+      --primary-dark: #648f5c;
+      --danger: #b13b3b;
+      --danger-dark: #922f2f;
+      --info: #2f6f9f;
+      --success: #2d7a4e;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top right, #fffdf8, var(--bg) 42%);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    .wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 2rem 1rem 3rem;
+    }
+
+    h1 {
+      margin: 0 0 0.5rem;
+      font-size: 1.55rem;
+    }
+
+    .lead {
+      margin: 0 0 1.4rem;
+      color: var(--muted);
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
+    }
+
+    h2 {
+      margin: 0 0 0.9rem;
+      font-size: 1.1rem;
+    }
+
+    .form-row {
+      margin-bottom: 0.8rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.35rem;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    input {
+      width: 100%;
+      padding: 0.65rem 0.72rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      color: var(--text);
+      background: #fff;
+    }
+
+    input:focus {
+      outline: 2px solid rgba(123, 168, 114, 0.28);
+      outline-offset: 1px;
+      border-color: var(--primary);
+    }
+
+    .check {
+      display: flex;
+      gap: 0.55rem;
+      align-items: flex-start;
+      margin: 0.8rem 0;
+      font-size: 0.92rem;
+    }
+
+    .check input {
+      width: auto;
+      margin-top: 0.15rem;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+      margin-top: 0.35rem;
+    }
+
+    button {
+      border: 0;
+      border-radius: 8px;
+      padding: 0.62rem 0.88rem;
+      font-size: 0.92rem;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    .btn-danger:hover {
+      background: var(--danger-dark);
+    }
+
+    .btn-ghost {
+      background: #ece8e1;
+      color: var(--text);
+    }
+
+    ul {
+      margin: 0.3rem 0 0.9rem;
+      padding-left: 1.1rem;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    #status {
+      border-radius: 10px;
+      padding: 0.7rem 0.8rem;
+      border: 1px solid transparent;
+      font-size: 0.92rem;
+      margin-bottom: 1rem;
+      display: none;
+    }
+
+    #status.info {
+      display: block;
+      background: #eef5fb;
+      border-color: #cce0f2;
+      color: var(--info);
+    }
+
+    #status.success {
+      display: block;
+      background: #edf8f1;
+      border-color: #cde9d7;
+      color: var(--success);
+    }
+
+    #status.error {
+      display: block;
+      background: #fdeeee;
+      border-color: #f2cece;
+      color: var(--danger);
+    }
+
+    .account-meta {
+      margin: 0 0 0.7rem;
+      padding: 0.55rem 0.65rem;
+      border-radius: 8px;
+      background: #f5f2ee;
+      font-size: 0.92rem;
+    }
+
+    .footer-links {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    a {
+      color: var(--primary-dark);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1>LittleSteps - Eliminación de Cuenta</h1>
+    <p class="lead">
+      Inicia sesión en tu cuenta y luego confirma la eliminación permanente.
+      Esta acción no se puede deshacer.
+    </p>
+
+    <div id="status" role="alert" aria-live="polite"></div>
+
+    <section class="card" id="login-card">
+      <h2>1) Iniciar Sesión</h2>
+      <form id="login-form">
+        <div class="form-row">
+          <label for="email">Correo electrónico</label>
+          <input id="email" name="email" type="email" autocomplete="email" required>
+        </div>
+        <div class="form-row">
+          <label for="password">Contraseña</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" required>
+        </div>
+        <div class="button-row">
+          <button id="login-btn" class="btn-primary" type="submit">Iniciar Sesión</button>
+        </div>
+      </form>
+      <p class="muted">Nota: Usa tu dirección de correo electrónico en lugar de un nombre de usuario.</p>
+    </section>
+
+    <section class="card" id="delete-card" hidden>
+      <h2>2) Eliminar Cuenta Permanentemente</h2>
+      <p class="account-meta">
+        Cuenta con sesión iniciada: <strong id="user-email">-</strong>
+      </p>
+      <ul>
+        <li>El acceso a tu cuenta se eliminará de forma permanente.</li>
+        <li>Los datos vinculados a este usuario se eliminarán de forma permanente.</li>
+        <li>Esta acción no se puede deshacer.</li>
+      </ul>
+
+      <form id="delete-form">
+        <div class="form-row">
+          <label for="delete-confirm-text">Escribe <code>ELIMINAR MI CUENTA</code> para confirmar</label>
+          <input id="delete-confirm-text" type="text" required>
+        </div>
+        <label class="check">
+          <input id="delete-confirm-checkbox" type="checkbox" required>
+          <span>Entiendo que esta acción es permanente.</span>
+        </label>
+        <div class="button-row">
+          <button id="delete-btn" class="btn-danger" type="submit">Eliminar Mi Cuenta Permanentemente</button>
+          <button id="logout-btn" class="btn-ghost" type="button">Cerrar Sesión</button>
+        </div>
+      </form>
+    </section>
+
+    <p class="footer-links">
+      <a href="politica-de-privacidad.html">Política de Privacidad</a> |
+      <a href="terminos-de-servicio.html">Términos de Servicio</a>
+    </p>
+  </main>
+
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+    const SUPABASE_URL = "https://bjdwptsrwroydkfukoix.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJqZHdwdHNyd3JveWRrZnVrb2l4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk2MTU4MjIsImV4cCI6MjA4NTE5MTgyMn0.k7iNzRzaBJAiCQOH7vNrhjdwcz-fnG7B0HX_qS-dYUU";
+
+    const loginCard = document.getElementById("login-card");
+    const deleteCard = document.getElementById("delete-card");
+    const statusBox = document.getElementById("status");
+    const userEmail = document.getElementById("user-email");
+
+    const loginForm = document.getElementById("login-form");
+    const loginButton = document.getElementById("login-btn");
+    const deleteForm = document.getElementById("delete-form");
+    const deleteButton = document.getElementById("delete-btn");
+    const logoutButton = document.getElementById("logout-btn");
+
+    function setStatus(message, type = "info") {
+      statusBox.className = "";
+      if (!message) {
+        statusBox.style.display = "none";
+        statusBox.textContent = "";
+        return;
+      }
+      statusBox.classList.add(type);
+      statusBox.textContent = message;
+      statusBox.style.display = "block";
+    }
+
+    function setLoading(button, loading, textWhenLoading, textWhenIdle) {
+      button.disabled = loading;
+      button.textContent = loading ? textWhenLoading : textWhenIdle;
+    }
+
+    function setLoggedIn(user) {
+      loginCard.hidden = true;
+      deleteCard.hidden = false;
+      userEmail.textContent = user?.email ?? "(correo electrónico no disponible)";
+    }
+
+    function setLoggedOut() {
+      loginCard.hidden = false;
+      deleteCard.hidden = true;
+      userEmail.textContent = "-";
+      document.getElementById("delete-confirm-text").value = "";
+      document.getElementById("delete-confirm-checkbox").checked = false;
+    }
+
+    if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+      setStatus("Falta la configuración de Supabase. Proporciona la URL y la clave anónima.", "error");
+      loginButton.disabled = true;
+      deleteButton.disabled = true;
+      throw new Error("Missing Supabase config");
+    }
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function syncSessionUI() {
+      const { data, error } = await supabase.auth.getUser();
+      if (error || !data?.user) {
+        setLoggedOut();
+        return;
+      }
+      setLoggedIn(data.user);
+    }
+
+    loginForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      setStatus("");
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      setLoading(loginButton, true, "Iniciando sesión...", "Iniciar Sesión");
+
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      setLoading(loginButton, false, "Iniciando sesión...", "Iniciar Sesión");
+
+      if (error) {
+        setStatus(`Error al iniciar sesión: ${error.message}`, "error");
+        return;
+      }
+
+      setLoggedIn(data.user);
+      setStatus("Inicio de sesión correcto. El paso de eliminación de cuenta está listo.", "success");
+      document.getElementById("password").value = "";
+    });
+
+    deleteForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      setStatus("");
+
+      const confirmText = document.getElementById("delete-confirm-text").value.trim();
+      const confirmCheckbox = document.getElementById("delete-confirm-checkbox").checked;
+
+      if (confirmText !== "ELIMINAR MI CUENTA") {
+        setStatus("Para continuar, escribe exactamente: ELIMINAR MI CUENTA", "error");
+        return;
+      }
+
+      if (!confirmCheckbox) {
+        setStatus("Marca la casilla de confirmación para continuar.", "error");
+        return;
+      }
+
+      const confirmed = window.confirm(
+        "Tu cuenta y los datos relacionados se eliminarán de forma permanente. Esta acción no se puede deshacer. ¿Deseas continuar?"
+      );
+      if (!confirmed) {
+        return;
+      }
+
+      setLoading(deleteButton, true, "Eliminando...", "Eliminar Mi Cuenta Permanentemente");
+
+      const { error } = await supabase.rpc("delete_my_account");
+
+      setLoading(deleteButton, false, "Eliminando...", "Eliminar Mi Cuenta Permanentemente");
+
+      if (error) {
+        const maybeMissingFunction = error.message?.toLowerCase().includes("delete_my_account");
+        const suffix = maybeMissingFunction
+          ? " Asegúrate de que la función delete_my_account exista en Supabase."
+          : "";
+        setStatus(`Error al eliminar la cuenta: ${error.message}.${suffix}`, "error");
+        return;
+      }
+
+      await supabase.auth.signOut();
+      setLoggedOut();
+      setStatus("Tu cuenta ha sido eliminada de forma permanente.", "success");
+    });
+
+    logoutButton.addEventListener("click", async () => {
+      await supabase.auth.signOut();
+      setLoggedOut();
+      setStatus("Sesión cerrada.", "info");
+    });
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        setLoggedIn(session.user);
+      } else {
+        setLoggedOut();
+      }
+    });
+
+    syncSessionUI();
+  </script>
+</body>
+</html>

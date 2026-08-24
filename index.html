@@ -113,6 +113,7 @@
         <div class="lang" aria-label="Language switcher">
           <button type="button" id="lang-tr">TR</button>
           <button type="button" id="lang-en">EN</button>
+          <button type="button" id="lang-es">ES</button>
         </div>
       </div>
 
@@ -152,18 +153,33 @@
         deleteHref: "account-deletion.html",
         hint: "Language is selected automatically from your browser. You can switch it here.",
       },
+      es: {
+        htmlLang: "es",
+        title: "LittleSteps",
+        lead: "Páginas legales:",
+        privacyLabel: "Política de Privacidad",
+        privacyHref: "politica-de-privacidad.html",
+        termsLabel: "Términos de Servicio",
+        termsHref: "terminos-de-servicio.html",
+        deleteLabel: "Eliminación de Cuenta",
+        deleteHref: "eliminacion-de-cuenta.html",
+        hint: "El idioma se selecciona automáticamente según tu navegador. Puedes cambiarlo aquí.",
+      },
     };
 
     const BUTTONS = {
       tr: document.getElementById("lang-tr"),
       en: document.getElementById("lang-en"),
+      es: document.getElementById("lang-es"),
     };
 
     function getInitialLanguage() {
       const stored = localStorage.getItem("littleStepsLegalLang");
-      if (stored === "tr" || stored === "en") return stored;
+      if (stored === "tr" || stored === "en" || stored === "es") return stored;
       const browser = (navigator.language || "").toLowerCase();
-      return browser.startsWith("tr") ? "tr" : "en";
+      if (browser.startsWith("tr")) return "tr";
+      if (browser.startsWith("es")) return "es";
+      return "en";
     }
 
     function applyLanguage(lang) {
@@ -188,12 +204,14 @@
 
       BUTTONS.tr.classList.toggle("active", lang === "tr");
       BUTTONS.en.classList.toggle("active", lang === "en");
+      BUTTONS.es.classList.toggle("active", lang === "es");
 
       localStorage.setItem("littleStepsLegalLang", lang);
     }
 
     BUTTONS.tr.addEventListener("click", () => applyLanguage("tr"));
     BUTTONS.en.addEventListener("click", () => applyLanguage("en"));
+    BUTTONS.es.addEventListener("click", () => applyLanguage("es"));
 
     applyLanguage(getInitialLanguage());
   </script>
